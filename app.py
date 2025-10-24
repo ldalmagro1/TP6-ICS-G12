@@ -34,11 +34,16 @@ fecha_str = fecha.strftime("%Y-%m-%d")
 
 # Selección de horario
 if fecha_str in actividad.disponibilidad:
-    horarios_disponibles = [h for h, cupos in actividad.disponibilidad[fecha_str].items() if cupos > 0]
-    if not horarios_disponibles:
+    # Mostrar todos los horarios, incluso los que no tienen cupos
+    horarios = list(actividad.disponibilidad[fecha_str].keys())
+    if not horarios:
         st.warning("No hay horarios disponibles para esta fecha")
         st.stop()
-    horario = st.selectbox("Elegí horario", horarios_disponibles)
+    horario = st.selectbox("Elegí horario", horarios)
+    
+    # Mostrar advertencia si el horario seleccionado no tiene cupos
+    if actividad.disponibilidad[fecha_str][horario] == 0:
+        st.error(f"⚠️ El horario {horario} no tiene cupos disponibles")
 else:
     st.warning("No hay disponibilidad para esta fecha")
     st.stop()
@@ -98,6 +103,7 @@ if st.button("Inscribirme"):
 # Mostrar disponibilidad
 st.subheader("Disponibilidad")
 if fecha_str in actividad.disponibilidad:
-    st.write("Cupos disponibles:")
+    fecha_formato = fecha.strftime("%d/%m/%Y")
+    st.write(f"Cupos disponibles para el día {fecha_formato}:")
     for hora, cupos in actividad.disponibilidad[fecha_str].items():
         st.write(f"- {hora}: {cupos} cupos")

@@ -11,9 +11,11 @@ class Actividad:
 
     def tiene_cupos(self, fecha, horario):
         """Verifica si hay cupos disponibles para una fecha y horario específicos"""
-        return (fecha in self.disponibilidad and 
-                horario in self.disponibilidad[fecha] and 
-                self.disponibilidad[fecha][horario] > 0)
+        if fecha not in self.disponibilidad:
+            return False
+        if horario not in self.disponibilidad[fecha]:
+            return False
+        return self.disponibilidad[fecha][horario] > 0
 
     def inscribir_participante(self, fecha, horario):
         """Registra un participante en un horario específico"""
