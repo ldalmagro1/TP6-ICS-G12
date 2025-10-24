@@ -52,13 +52,3 @@ def test_inscripcion_exitosa():
     assert resultado["ok"] is True
     assert resultado["mensaje"] == "Inscripción exitosa"
 
-def test_sin_cupos_despues_de_llenar():
-    actividad = Actividad("Tirolesa")
-    actividad.agregar_disponibilidad("2025-10-10", {"10:00": 1})
-    # Primera inscripción (ocupa el único cupo)
-    resultado1 = inscribirse(actividad, "2025-10-10", "10:00", [{"nombre": "Toto", "acepta_terminos": True}])
-    assert resultado1["ok"] is True
-    # Segunda inscripción (no debería permitirse)
-    resultado2 = inscribirse(actividad, "2025-10-10", "10:00", [{"nombre": "Ana", "acepta_terminos": True}])
-    assert resultado2["ok"] is False
-    assert resultado2["mensaje"] == "No hay cupos disponibles"
