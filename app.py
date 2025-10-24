@@ -104,6 +104,6 @@ if st.button("Inscribirme"):
 st.subheader("Disponibilidad")
 if fecha_str in actividad.disponibilidad:
     fecha_formato = fecha.strftime("%d/%m/%Y")
-    st.write(f"Cupos disponibles para el día {fecha_formato}:")
+    st.write(f"Cupos disponibles para {actividad_nombre} el día {fecha_formato}:")
     for hora, cupos in actividad.disponibilidad[fecha_str].items():
         st.write(f"- {hora}: {cupos} cupos")
